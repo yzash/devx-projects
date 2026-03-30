@@ -153,7 +153,7 @@ function generatePDFHtml(question, answer, chartType, chartData, dateRange) {
 
   <div class="footer">
     <span>CEO Intelligence Platform</span>
-    <span>Powered by Anthropic Claude + Zoho</span>
+    <span>Powered by Llama via Groq + Zoho</span>
   </div>
 </body>
 </html>`;
