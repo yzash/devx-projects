@@ -7,6 +7,7 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => localStorage.getItem('ceo_auth_token'));
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [mode, setMode] = useState('demo'); // 'demo' | 'zoho'
 
   const login = useCallback((newToken, userData = null) => {
     localStorage.setItem('ceo_auth_token', newToken);
@@ -23,7 +24,7 @@ export function AuthProvider({ children }) {
     setUser(null);
   }, []);
 
-  // Check URL for token (OAuth callback)
+  // Check URL for token (Zoho OAuth callback)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const urlToken = params.get('token');
@@ -38,11 +39,18 @@ export function AuthProvider({ children }) {
     }
   }, [login]);
 
-  // Try demo auto-auth on load
   useEffect(() => {
     async function init() {
-      const storedToken = localStorage.getItem('ceo_auth_token');
+      // First: find out whether the backend has real Zoho credentials
+      let currentMode = 'demo';
+      try {
+        const modeRes = await api.get('/auth/mode');
+        currentMode = modeRes.data.mode;
+        setMode(currentMode);
+      } catch (_) {}
 
+      // If there's already a stored token, validate it
+      const storedToken = localStorage.getItem('ceo_auth_token');
       if (storedToken) {
         try {
           const res = await api.get('/auth/status');
@@ -55,24 +63,26 @@ export function AuthProvider({ children }) {
         }
       }
 
-      // Try demo auth
-      try {
-        const res = await api.get('/auth/demo');
-        if (res.data.token) {
-          login(res.data.token, res.data.user);
+      // Auto-login only in demo mode (Zoho mode requires explicit OAuth)
+      if (currentMode === 'demo') {
+        try {
+          const res = await api.get('/auth/demo');
+          if (res.data.token) {
+            login(res.data.token, res.data.user);
+          }
+        } catch (err) {
+          console.warn('Demo auth failed:', err.message);
         }
-      } catch (err) {
-        console.warn('Demo auth not available:', err.message);
-      } finally {
-        setLoading(false);
       }
+
+      setLoading(false);
     }
 
     init();
   }, [login]);
 
   return (
-    <AuthContext.Provider value={{ token, user, loading, login, logout, isAuthenticated: !!token }}>
+    <AuthContext.Provider value={{ token, user, loading, mode, login, logout, isAuthenticated: !!token }}>
       {children}
     </AuthContext.Provider>
   );

@@ -49,8 +49,7 @@ export async function refreshAccessToken(refreshToken) {
 }
 
 export function getDateRange(dateRangeKey) {
-  // Today is 2026-03-30
-  const today = new Date('2026-03-30');
+  const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth(); // 0-indexed, so 2 = March
 

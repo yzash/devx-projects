@@ -3,9 +3,29 @@ import { v4 as uuidv4 } from 'uuid';
 import { processQuery } from '../services/claudeService.js';
 import { query } from '../config/db.js';
 import { authMiddleware } from '../middleware/auth.js';
-import { executeTool } from '../services/zohoService.js';
+import { executeTool, refreshAccessToken } from '../services/zohoService.js';
+import { decrypt } from '../config/encryption.js';
 
 const router = express.Router();
+
+// Get a fresh Zoho access token from the stored refresh token in DB.
+// Falls back to null (triggering mock data) if DB is unavailable or user is demo.
+async function getFreshAccessToken(userId) {
+  if (!userId || userId.startsWith('demo')) return null;
+  try {
+    const result = await query(
+      'SELECT refresh_token_encrypted FROM users WHERE id = $1',
+      [userId]
+    );
+    const encrypted = result.rows[0]?.refresh_token_encrypted;
+    if (!encrypted) return null;
+    const refreshToken = decrypt(encrypted);
+    return await refreshAccessToken(refreshToken);
+  } catch (err) {
+    console.warn('Token refresh failed, falling back to mock data:', err.message);
+    return null;
+  }
+}
 
 // Helper to safely run DB queries without crashing if DB is unavailable
 async function safeQuery(text, params) {
@@ -36,7 +56,7 @@ router.post('/query', authMiddleware, async (req, res) => {
   };
 
   try {
-    const accessToken = req.user.accessToken || null;
+    const accessToken = await getFreshAccessToken(req.user.userId);
     let fullAnswer = '';
     let chartType = null;
     let chartData = null;
@@ -190,8 +210,8 @@ router.get('/pinned-metrics', authMiddleware, async (req, res) => {
     { id: 'default-4', metric_key: 'overdue_receivables', zoho_module: 'Books', display_order: 3 },
   ];
 
-  // Enrich with live data
-  const accessToken = req.user.accessToken || null;
+  // Enrich with live data using a fresh access token
+  const accessToken = await getFreshAccessToken(req.user.userId);
   const enrichedMetrics = await Promise.all(metrics.map(async (metric) => {
     try {
       let liveData = {};

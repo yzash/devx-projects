@@ -9,8 +9,19 @@ const router = express.Router();
 
 const isDemoMode = () => !process.env.ZOHO_CLIENT_ID || process.env.ZOHO_CLIENT_ID === 'demo';
 
-// GET /auth/demo - Auto-authenticate in demo mode
+// GET /auth/mode - tells frontend whether Zoho OAuth is configured
+router.get('/mode', (req, res) => {
+  res.json({ mode: isDemoMode() ? 'demo' : 'zoho' });
+});
+
+// GET /auth/demo - Auto-authenticate in demo mode (blocked when Zoho is configured)
 router.get('/demo', async (req, res) => {
+  if (!isDemoMode()) {
+    return res.status(403).json({
+      error: 'Demo mode is disabled. Please sign in with Zoho.',
+      redirect: '/auth/zoho'
+    });
+  }
   try {
     const demoUserId = 'demo-user-' + uuidv4().slice(0, 8);
     
