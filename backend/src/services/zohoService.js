@@ -10,7 +10,7 @@ const isDemoMode = () => !process.env.ZOHO_CLIENT_ID || process.env.ZOHO_CLIENT_
 
 export function getZohoAuthUrl() {
   const params = new URLSearchParams({
-    scope: 'ZohoCRM.modules.ALL,ZohoBooks.fullaccess.all,ZohoDesk.tickets.ALL,ZohoInventory.fullaccess.all',
+    scope: 'ZohoCRM.modules.ALL,ZohoBooks.fullaccess.all,Desk.tickets.ALL,ZohoInventory.fullaccess.all',
     client_id: process.env.ZOHO_CLIENT_ID,
     response_type: 'code',
     redirect_uri: process.env.ZOHO_REDIRECT_URI || 'http://localhost:3001/auth/callback',
