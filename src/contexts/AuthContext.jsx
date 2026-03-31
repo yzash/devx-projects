@@ -63,15 +63,16 @@ export function AuthProvider({ children }) {
         }
       }
 
-      // Auto-login only in demo mode (Zoho mode requires explicit OAuth)
-      if (currentMode === 'demo') {
+      // Auto-login for demo and static-token modes
+      if (currentMode === 'demo' || currentMode === 'static') {
+        const endpoint = currentMode === 'static' ? '/auth/static' : '/auth/demo';
         try {
-          const res = await api.get('/auth/demo');
+          const res = await api.get(endpoint);
           if (res.data.token) {
             login(res.data.token, res.data.user);
           }
         } catch (err) {
-          console.warn('Demo auth failed:', err.message);
+          console.warn(`Auto auth (${currentMode}) failed:`, err.message);
         }
       }
 
