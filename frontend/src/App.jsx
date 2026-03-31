@@ -20,7 +20,7 @@ function AppRoutes() {
   }
 
   if (!isAuthenticated) {
-    const isZohoMode = mode === 'zoho';
+    const isZohoMode = mode === 'zoho'; // static mode auto-logs in, never reaches here
     return (
       <div className="flex items-center justify-center h-screen bg-gray-50">
         <div className="text-center max-w-md px-6">

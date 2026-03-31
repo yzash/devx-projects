@@ -8,10 +8,44 @@ import { generateToken, authMiddleware } from '../middleware/auth.js';
 const router = express.Router();
 
 const isDemoMode = () => !process.env.ZOHO_CLIENT_ID || process.env.ZOHO_CLIENT_ID === 'demo';
+const hasStaticToken = () => !!process.env.ZOHO_REFRESH_TOKEN;
 
-// GET /auth/mode - tells frontend whether Zoho OAuth is configured
+// GET /auth/mode - tells frontend how to authenticate
 router.get('/mode', (req, res) => {
-  res.json({ mode: isDemoMode() ? 'demo' : 'zoho' });
+  if (hasStaticToken()) return res.json({ mode: 'static' });
+  if (isDemoMode()) return res.json({ mode: 'demo' });
+  res.json({ mode: 'zoho' });
+});
+
+// GET /auth/static - auto-login using ZOHO_REFRESH_TOKEN env var (no OAuth flow needed)
+router.get('/static', async (req, res) => {
+  if (!hasStaticToken()) {
+    return res.status(404).json({ error: 'Static token not configured' });
+  }
+  try {
+    let userId = 'static-user-00000000';
+    try {
+      const existing = await query('SELECT id FROM users WHERE zoho_org_id = $1', [process.env.ZOHO_ORG_ID || 'static']);
+      if (existing.rows.length > 0) {
+        userId = existing.rows[0].id;
+      } else {
+        const { encrypt } = await import('../config/encryption.js');
+        const result = await query(
+          'INSERT INTO users (id, zoho_org_id, refresh_token_encrypted, preferences_json) VALUES ($1, $2, $3, $4) RETURNING id',
+          [uuidv4(), process.env.ZOHO_ORG_ID || 'static', encrypt(process.env.ZOHO_REFRESH_TOKEN), JSON.stringify({ currency: 'GBP' })]
+        );
+        userId = result.rows[0].id;
+      }
+    } catch (_) {
+      // DB unavailable — use a fixed ID
+    }
+
+    const token = generateToken({ userId, zohoOrgId: process.env.ZOHO_ORG_ID || 'static', isStatic: true });
+    res.json({ success: true, token, user: { id: userId, isStatic: true } });
+  } catch (err) {
+    console.error('Static auth error:', err);
+    res.status(500).json({ error: 'Static authentication failed' });
+  }
 });
 
 // GET /auth/demo - Auto-authenticate in demo mode (blocked when Zoho is configured)

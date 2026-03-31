@@ -13,15 +13,28 @@ const router = express.Router();
 async function getFreshAccessToken(userId) {
   if (!userId || userId.startsWith('demo')) return null;
   try {
+    // Try DB first (OAuth flow users)
     const result = await query(
       'SELECT refresh_token_encrypted FROM users WHERE id = $1',
       [userId]
     );
     const encrypted = result.rows[0]?.refresh_token_encrypted;
-    if (!encrypted) return null;
-    const refreshToken = decrypt(encrypted);
-    return await refreshAccessToken(refreshToken);
+    if (encrypted) {
+      const refreshToken = decrypt(encrypted);
+      return await refreshAccessToken(refreshToken);
+    }
+    // Fall back to env var (static token mode)
+    if (process.env.ZOHO_REFRESH_TOKEN) {
+      return await refreshAccessToken(process.env.ZOHO_REFRESH_TOKEN);
+    }
+    return null;
   } catch (err) {
+    // If DB is unavailable but we have a static token, use it directly
+    if (process.env.ZOHO_REFRESH_TOKEN) {
+      try {
+        return await refreshAccessToken(process.env.ZOHO_REFRESH_TOKEN);
+      } catch (_) {}
+    }
     console.warn('Token refresh failed, falling back to mock data:', err.message);
     return null;
   }
