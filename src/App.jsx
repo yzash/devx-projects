@@ -56,10 +56,11 @@ export default function App() {
       {/* Desktop Top Nav */}
       <nav className="hidden lg:flex items-center justify-between px-8 py-4 bg-white border-b border-gray-100 sticky top-0 z-50">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg mf-gradient-hero flex items-center justify-center">
-            <span className="text-white text-sm font-bold">m</span>
-          </div>
-          <span className="text-xl font-bold text-mf-dark">my<span className="text-mf-blue">First</span></span>
+          <img
+            src="https://sg.myfirst.tech/cdn/shop/files/myFirst_Logo.png?v=1613768838&width=600"
+            alt="myFirst"
+            className="h-9 w-auto"
+          />
         </div>
         <div className="flex items-center gap-1">
           {[

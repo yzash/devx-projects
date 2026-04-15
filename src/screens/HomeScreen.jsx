@@ -79,21 +79,23 @@ export default function HomeScreen({ setScreen }) {
   return (
     <div className="space-y-5 pb-4">
       {/* Hero Banner */}
-      <div className="relative overflow-hidden mf-gradient-hero rounded-b-3xl lg:rounded-3xl lg:mx-4 lg:mt-4">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 right-10 w-40 h-40 rounded-full bg-white/20 animate-float" />
-          <div className="absolute bottom-20 left-10 w-24 h-24 rounded-full bg-white/15 animate-float" style={{ animationDelay: '1s' }} />
-        </div>
-        {/* Hero product image - right side on desktop */}
-        <div className="hidden lg:block absolute right-8 bottom-0 w-80 opacity-90">
+      <div className="relative overflow-hidden rounded-b-3xl lg:rounded-3xl lg:mx-4 lg:mt-4">
+        {/* Banner background image */}
+        <div className="absolute inset-0">
           <img
-            src="https://sg.myfirst.tech/cdn/shop/files/679435227-4115_sfypc_r2-ab4.png?v=1745297147&width=800"
-            alt="myFirst Fone R2"
-            className="w-full animate-float drop-shadow-2xl"
+            src="https://sg.myfirst.tech/cdn/shop/files/FoneS4_Sharing_Img.png?v=1736212644&width=3840"
+            alt=""
+            className="w-full h-full object-cover"
           />
+          <div className="absolute inset-0 bg-gradient-to-r from-mf-dark/80 via-mf-dark/50 to-transparent" />
         </div>
         <div className="relative px-5 pt-12 pb-8 lg:px-12 lg:py-16">
           <div className="lg:max-w-xl">
+            <img
+              src="https://sg.myfirst.tech/cdn/shop/files/myFirst_Logo.png?v=1613768838&width=600"
+              alt="myFirst"
+              className="h-8 w-auto mb-4 lg:hidden"
+            />
             <div className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 mb-4">
               <Star size={12} className="text-yellow-300" fill="currentColor" />
               <span className="text-white/90 text-xs font-medium">World&apos;s First KidsTech Ecosystem</span>
