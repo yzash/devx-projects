@@ -1,16 +1,17 @@
 {
   "version": 2,
-  "buildCommand": "cd myfirst-demo && npm install && npm run build",
-  "outputDirectory": "myfirst-demo/dist",
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/dist",
   "installCommand": "npm install",
   "functions": {
-    "api/chat.js": {
+    "api/index.js": {
       "maxDuration": 30,
       "memory": 1024
     }
   },
   "rewrites": [
-    { "source": "/api/chat", "destination": "/api/chat" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/api/:path*", "destination": "/api/index" },
+    { "source": "/auth/:path*", "destination": "/api/index" },
+    { "source": "/((?!api|auth).*)", "destination": "/index.html" }
   ]
 }
