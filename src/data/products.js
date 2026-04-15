@@ -39,6 +39,8 @@ export const products = [
     },
     icon: 'watch',
     gradient: 'from-blue-400 to-blue-600',
+    image: 'https://sg.myfirst.tech/cdn/shop/files/679435227-4115_sfypc_r2-ab4.png?v=1745297147&width=800',
+    imageFull: 'https://sg.myfirst.tech/cdn/shop/files/679435227-4115_sfypc_r2-ab4.png?v=1745297147&width=1200',
   },
   {
     id: 'fone-s4',
@@ -71,6 +73,8 @@ export const products = [
     },
     icon: 'watch',
     gradient: 'from-indigo-400 to-indigo-600',
+    image: 'https://sg.myfirst.tech/cdn/shop/files/S4_magiCode_2500x2500_a755ee4a-6bcb-40e5-8776-d6203e3ef2f4.jpg?v=1776128958&width=800',
+    imageFull: 'https://sg.myfirst.tech/cdn/shop/files/S4_magiCode_2500x2500_a755ee4a-6bcb-40e5-8776-d6203e3ef2f4.jpg?v=1776128958&width=1200',
   },
   {
     id: 'camera-50',
@@ -95,6 +99,8 @@ export const products = [
     },
     icon: 'camera',
     gradient: 'from-pink-400 to-rose-500',
+    image: 'https://sg.myfirst.tech/cdn/shop/files/preview_images/Camera50-Purple.jpg?v=1723532441&width=800',
+    imageFull: 'https://sg.myfirst.tech/cdn/shop/files/preview_images/Camera50-Purple.jpg?v=1723532441&width=1200',
   },
   {
     id: 'carebuds-max',
@@ -119,6 +125,8 @@ export const products = [
     },
     icon: 'headphones',
     gradient: 'from-purple-400 to-violet-500',
+    image: 'https://sg.myfirst.tech/cdn/shop/files/677811195-4117_cover-image_cb_cotton-candy-2.png?v=1731918397&width=800',
+    imageFull: 'https://sg.myfirst.tech/cdn/shop/files/677811195-4117_cover-image_cb_cotton-candy-2.png?v=1731918397&width=1200',
   },
   {
     id: '3dpen-make',
@@ -143,6 +151,8 @@ export const products = [
     },
     icon: 'pen-tool',
     gradient: 'from-cyan-400 to-teal-500',
+    image: 'https://sg.myfirst.tech/cdn/shop/files/3dpen_make_blue_cover_photo.jpg?v=1762764127&width=800',
+    imageFull: 'https://sg.myfirst.tech/cdn/shop/files/3dpen_make_blue_cover_photo.jpg?v=1762764127&width=1200',
   },
   {
     id: 'frame-10',
@@ -167,6 +177,8 @@ export const products = [
     },
     icon: 'image',
     gradient: 'from-amber-400 to-orange-500',
+    image: 'https://sg.myfirst.tech/cdn/shop/files/4694e869-676c-4caf-8539-641d1d03ef5c.png?v=1763439123&width=800',
+    imageFull: 'https://sg.myfirst.tech/cdn/shop/files/4694e869-676c-4caf-8539-641d1d03ef5c.png?v=1763439123&width=1200',
   },
 ];
 

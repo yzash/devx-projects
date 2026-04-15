@@ -41,9 +41,15 @@ function ProductCarouselCard({ product, onClick }) {
       onClick={onClick}
       className="flex-shrink-0 w-44 mf-card p-4 text-left hover:shadow-mf-card-hover transition-all duration-300 active:scale-[0.98]"
     >
-      <div className={`w-full h-28 rounded-xl bg-gradient-to-br ${product.gradient} flex items-center justify-center mb-3`}>
-        <IconComponent className="text-white/90" size={40} strokeWidth={1.5} />
-      </div>
+      {product.image ? (
+        <div className="w-full h-28 rounded-xl bg-white flex items-center justify-center mb-3 overflow-hidden">
+          <img src={product.image} alt={product.name} className="w-full h-full object-contain p-1" loading="lazy" />
+        </div>
+      ) : (
+        <div className={`w-full h-28 rounded-xl bg-gradient-to-br ${product.gradient} flex items-center justify-center mb-3`}>
+          <IconComponent className="text-white/90" size={40} strokeWidth={1.5} />
+        </div>
+      )}
       <div className="space-y-1">
         <p className="text-xs font-semibold text-mf-blue">{product.category.toUpperCase()}</p>
         <h3 className="text-sm font-bold text-mf-dark leading-tight">{product.name}</h3>
@@ -77,7 +83,14 @@ export default function HomeScreen({ setScreen }) {
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 right-10 w-40 h-40 rounded-full bg-white/20 animate-float" />
           <div className="absolute bottom-20 left-10 w-24 h-24 rounded-full bg-white/15 animate-float" style={{ animationDelay: '1s' }} />
-          <div className="absolute top-32 left-1/3 w-16 h-16 rounded-full bg-white/10 animate-float" style={{ animationDelay: '0.5s' }} />
+        </div>
+        {/* Hero product image - right side on desktop */}
+        <div className="hidden lg:block absolute right-8 bottom-0 w-80 opacity-90">
+          <img
+            src="https://sg.myfirst.tech/cdn/shop/files/679435227-4115_sfypc_r2-ab4.png?v=1745297147&width=800"
+            alt="myFirst Fone R2"
+            className="w-full animate-float drop-shadow-2xl"
+          />
         </div>
         <div className="relative px-5 pt-12 pb-8 lg:px-12 lg:py-16">
           <div className="lg:max-w-xl">

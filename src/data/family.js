@@ -57,6 +57,7 @@ export const family = {
       batteryHealth: '94%',
       simStatus: 'FreeSIM Active',
       image: 'watch',
+      productImage: 'https://sg.myfirst.tech/cdn/shop/files/679435227-4115_sfypc_r2-ab4.png?v=1745297147&width=200',
     },
     {
       id: 'camera-50',
@@ -67,6 +68,7 @@ export const family = {
       subscription: null,
       batteryHealth: '88%',
       image: 'camera',
+      productImage: 'https://sg.myfirst.tech/cdn/shop/files/preview_images/Camera50-Purple.jpg?v=1723532441&width=200',
     },
     {
       id: 'carebuds-max',
@@ -77,6 +79,7 @@ export const family = {
       subscription: null,
       batteryHealth: '78%',
       image: 'headphones',
+      productImage: 'https://sg.myfirst.tech/cdn/shop/files/677811195-4117_cover-image_cb_cotton-candy-2.png?v=1731918397&width=200',
     },
   ],
   moments: [

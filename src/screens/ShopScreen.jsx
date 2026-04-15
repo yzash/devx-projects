@@ -14,6 +14,27 @@ function ProductIcon({ icon, size = 32, className = '' }) {
   return <Icon size={size} className={className} strokeWidth={1.5} />;
 }
 
+function ProductImage({ product, className = '', size = 'md' }) {
+  const sizeClasses = { sm: 'w-16 h-16', md: 'w-full aspect-square', lg: 'w-full aspect-[4/3]' };
+  if (product.image) {
+    return (
+      <div className={`${sizeClasses[size]} rounded-xl bg-white flex items-center justify-center overflow-hidden ${className}`}>
+        <img
+          src={size === 'lg' ? (product.imageFull || product.image) : product.image}
+          alt={product.name}
+          className="w-full h-full object-contain p-2"
+          loading="lazy"
+        />
+      </div>
+    );
+  }
+  return (
+    <div className={`${sizeClasses[size]} rounded-xl bg-gradient-to-br ${product.gradient} flex items-center justify-center ${className}`}>
+      <ProductIcon icon={product.icon} size={size === 'lg' ? 80 : size === 'sm' ? 24 : 36} className="text-white/90" />
+    </div>
+  );
+}
+
 export default function ShopScreen({ cart, addToCart, removeFromCart, updateCartQuantity, setScreen }) {
   const [activeCategory, setActiveCategory] = useState('all');
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -125,8 +146,8 @@ export default function ShopScreen({ cart, addToCart, removeFromCart, updateCart
             onClick={() => { setSelectedProduct(product); setIsSubscription(false); }}
             className="mf-card p-3 text-left active:scale-[0.98] transition-all duration-200"
           >
-            <div className={`w-full aspect-square rounded-xl bg-gradient-to-br ${product.gradient} flex items-center justify-center mb-3 relative`}>
-              <ProductIcon icon={product.icon} size={36} className="text-white/90" />
+            <div className="relative mb-3">
+              <ProductImage product={product} size="md" />
               {product.badge && (
                 <span className={`absolute top-2 left-2 mf-badge text-[10px] ${
                   product.badge === 'New' ? 'bg-green-500 text-white' :
@@ -137,6 +158,7 @@ export default function ShopScreen({ cart, addToCart, removeFromCart, updateCart
                 </span>
               )}
             </div>
+
             <p className="text-xs text-mf-gray font-medium">{product.ageRange} years</p>
             <h3 className="text-sm font-bold text-mf-dark leading-tight mt-0.5">{product.name}</h3>
             <div className="flex items-baseline gap-1.5 mt-1.5">
@@ -188,9 +210,7 @@ export default function ShopScreen({ cart, addToCart, removeFromCart, updateCart
 
             <div className="p-5 space-y-5">
               {/* Product Image */}
-              <div className={`w-full aspect-[4/3] rounded-2xl bg-gradient-to-br ${selectedProduct.gradient} flex items-center justify-center`}>
-                <ProductIcon icon={selectedProduct.icon} size={80} className="text-white/90" />
-              </div>
+              <ProductImage product={selectedProduct} size="lg" />
 
               {/* Info */}
               <div>
@@ -398,9 +418,7 @@ export default function ShopScreen({ cart, addToCart, removeFromCart, updateCart
               <div className="p-5 space-y-4">
                 {cart.map(item => (
                   <div key={item.id} className="flex items-center gap-3 pb-4 border-b border-gray-50">
-                    <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${item.gradient} flex items-center justify-center flex-shrink-0`}>
-                      <ProductIcon icon={item.icon} size={24} className="text-white/90" />
-                    </div>
+                    <ProductImage product={item} size="sm" className="flex-shrink-0" />
                     <div className="flex-1 min-w-0">
                       <h3 className="text-sm font-bold text-mf-dark truncate">{item.name}</h3>
                       <p className="text-sm font-semibold text-mf-blue">

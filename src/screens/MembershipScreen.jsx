@@ -247,8 +247,12 @@ export default function MembershipScreen({ setScreen }) {
             return (
               <div key={device.id} className="mf-card p-4">
                 <div className="flex items-start gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-mf-blue-light flex items-center justify-center flex-shrink-0">
-                    <DeviceIcon size={22} className="text-mf-blue" />
+                  <div className="w-12 h-12 rounded-xl bg-white border border-gray-100 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                    {device.productImage ? (
+                      <img src={device.productImage} alt={device.name} className="w-full h-full object-contain p-1" />
+                    ) : (
+                      <DeviceIcon size={22} className="text-mf-blue" />
+                    )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
