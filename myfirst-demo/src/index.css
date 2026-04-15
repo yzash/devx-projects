@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply text-mf-dark bg-white;
+    overscroll-behavior: none;
+  }
+
+  input, textarea, select {
+    @apply outline-none;
+  }
+}
+
+@layer components {
+  .mf-card {
+    @apply bg-white rounded-2xl shadow-mf-card transition-all duration-300;
+  }
+
+  .mf-card:hover {
+    @apply shadow-mf-card-hover;
+  }
+
+  .mf-btn-primary {
+    @apply bg-mf-coral text-white font-semibold px-6 py-3 rounded-full
+           transition-all duration-200 active:scale-95 hover:brightness-110
+           shadow-md hover:shadow-lg;
+  }
+
+  .mf-btn-secondary {
+    @apply bg-mf-blue text-white font-semibold px-6 py-3 rounded-full
+           transition-all duration-200 active:scale-95 hover:brightness-110;
+  }
+
+  .mf-btn-outline {
+    @apply border-2 border-mf-blue text-mf-blue font-semibold px-6 py-3 rounded-full
+           transition-all duration-200 active:scale-95 hover:bg-mf-blue-light;
+  }
+
+  .mf-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold;
+  }
+
+  .mf-gradient-hero {
+    background: linear-gradient(135deg, #0057FF 0%, #3B82F6 40%, #60A5FA 100%);
+  }
+
+  .mf-gradient-gold {
+    background: linear-gradient(135deg, #D4A853 0%, #F0D78C 50%, #D4A853 100%);
+    background-size: 200% 100%;
+  }
+
+  .mf-gradient-platinum {
+    background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #6366F1 100%);
+    background-size: 200% 100%;
+  }
+
+  .mf-gradient-silver {
+    background: linear-gradient(135deg, #8B95A5 0%, #B8C0CC 50%, #8B95A5 100%);
+    background-size: 200% 100%;
+  }
+
+  .mf-shimmer {
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2.5s ease-in-out infinite;
+  }
+
+  .screen-enter {
+    animation: fadeIn 0.35s ease-out forwards;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@layer utilities {
+  .text-gradient-blue {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #0057FF, #3B82F6);
+  }
+
+  .text-gradient-gold {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #D4A853, #F0D78C);
+  }
+}
